@@ -1,4 +1,4 @@
-public import Cardinal_Primitives
+public import Cardinal
 public import Iterator_Primitive
 public import Iterator_Protocol
 

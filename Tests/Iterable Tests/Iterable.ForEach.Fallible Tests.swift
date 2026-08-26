@@ -1,8 +1,8 @@
-import Cardinal_Primitives
-import Carrier_Primitives
-import Either_Primitives
-import Iterator_Chunk_Primitives
-import Iterator_Primitives_Test_Support
+import Cardinal
+import Carrier
+import Either
+import Iterator_Chunk
+import Iterator_Test_Support
 
 private enum SourceError: Swift.Error { case boom }
 
