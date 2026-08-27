@@ -1,5 +1,5 @@
-import Iterator_Chunk
-import Iterator_Test_Support
+import Iterator
+import Testing
 
 private struct IntSource: Iterable {
     let values: [Int]
@@ -7,8 +7,8 @@ private struct IntSource: Iterable {
 
 extension IntSource {
     @_lifetime(borrow self)
-    borrowing func makeIterator() -> Iterator_Chunk.Iterator.Chunk<Int> {
-        Iterator_Chunk.Iterator.Chunk(values.span)
+    borrowing func makeIterator() -> Iterator.Iterator.Chunk<Int> {
+        Iterator.Iterator.Chunk(values.span)
     }
 }
 

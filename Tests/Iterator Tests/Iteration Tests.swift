@@ -1,4 +1,5 @@
-import Iterator_Test_Support
+import Iterator
+import Testing
 
 private struct CountingIterator: Iterator.`Protocol` {
     var n: Int
