@@ -1,20 +1,18 @@
 public import Cardinal
-public import Cardinal_Standard_Library_Integration
-public import Carrier
 
 extension Iterator {
 
     public struct Chunk<Element: ~Copyable>: ~Copyable, ~Escapable {
         @usableFromInline let span: Swift.Span<Element>
-        @usableFromInline let count: Cardinal
-        @usableFromInline var position: Cardinal
+        @usableFromInline let count: Int
+        @usableFromInline var position: Int
 
         @inlinable
         @_lifetime(copy span)
         public init(_ span: Swift.Span<Element>) {
             self.span = span
-            self.count = Cardinal(UInt(bitPattern: span.count))
-            self.position = .zero
+            self.count = span.count
+            self.position = 0
         }
     }
 }
@@ -26,13 +24,14 @@ extension Iterator.Chunk: __IteratorChunkProtocol where Element: ~Copyable {
     @inlinable
     @_lifetime(&self)
     public mutating func next(
-        maximumCount: some Carrier.`Protocol`<Cardinal>
+        maximumCount: Cardinal
     ) -> Swift.Span<Element> {
-        let remaining = count.subtract.saturating(position)
-        let take = Swift.min(maximumCount.underlying, remaining)
-        guard take > .zero else { return span.extracting(first: Cardinal.zero) }
+        let remaining = count - position
+        let requested = Int(clamping: maximumCount.rawValue)
+        let take = Swift.min(requested, remaining)
+        guard take > 0 else { return span.extracting(first: 0) }
         let result = span.extracting(droppingFirst: position).extracting(first: take)
-        position = position.add.saturating(take)
+        position += take
         return result
     }
 }

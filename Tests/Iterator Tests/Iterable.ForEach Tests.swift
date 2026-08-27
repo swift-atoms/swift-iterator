@@ -7,8 +7,8 @@ private struct IntSource: Iterable {
 
 extension IntSource {
     @_lifetime(borrow self)
-    borrowing func makeIterator() -> Iterator.Iterator.Chunk<Int> {
-        Iterator.Iterator.Chunk(values.span)
+    borrowing func makeIterator() -> Iterator.Chunk<Int> {
+        .init(values.span)
     }
 }
 
@@ -23,8 +23,8 @@ private struct IntCursor: Iterable, ~Escapable {
 
 extension IntCursor {
     @_lifetime(borrow self)
-    borrowing func makeIterator() -> Iterator.Iterator.Chunk<Int> {
-        Iterator.Iterator.Chunk(values)
+    borrowing func makeIterator() -> Iterator.Chunk<Int> {
+        .init(values)
     }
 }
 

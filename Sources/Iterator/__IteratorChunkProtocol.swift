@@ -1,5 +1,4 @@
 public import Cardinal
-public import Carrier
 
 public protocol __IteratorChunkProtocol<Element, Failure>: ~Copyable, ~Escapable {
 
@@ -9,7 +8,7 @@ public protocol __IteratorChunkProtocol<Element, Failure>: ~Copyable, ~Escapable
 
     @_lifetime(&self)
     mutating func next(
-        maximumCount: some Carrier.`Protocol`<Cardinal>
+        maximumCount: Cardinal
     ) throws(Failure) -> Swift.Span<Element>
 
     mutating func skip(by maximumOffset: Int) throws(Failure) -> Int

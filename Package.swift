@@ -27,10 +27,6 @@ let package = Package(
     ],
     dependencies: [
         .package(
-            url: "https://github.com/swift-atoms/swift-carrier.git",
-            branch: "main"
-        ),
-        .package(
             url: "https://github.com/swift-atoms/swift-cardinal.git",
             branch: "main"
         ),
@@ -39,12 +35,7 @@ let package = Package(
         .target(
             name: "Iterator",
             dependencies: [
-                .product(name: "Carrier", package: "swift-carrier"),
                 .product(name: "Cardinal", package: "swift-cardinal"),
-                .product(
-                    name: "Cardinal Standard Library Integration",
-                    package: "swift-cardinal"
-                ),
             ]
         ),
         .target(
@@ -62,7 +53,6 @@ let package = Package(
             name: "Iterator Tests",
             dependencies: [
                 "Iterator",
-                .product(name: "Carrier", package: "swift-carrier"),
                 .product(name: "Cardinal", package: "swift-cardinal"),
             ],
             path: "Tests/Iterator Tests"
