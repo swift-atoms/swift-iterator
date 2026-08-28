@@ -1,4 +1,6 @@
 public import Cardinal
+public import Cardinal_Carrier
+public import Carrier_Protocol
 
 public protocol __IteratorChunkProtocol<Element, Failure>: ~Copyable, ~Escapable {
 

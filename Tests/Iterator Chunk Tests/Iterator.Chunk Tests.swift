@@ -1,4 +1,9 @@
+import Cardinal
+import Cardinal_Carrier
+import Carrier_Protocol
+import Iterator_Chunk
 import Iterator_Test_Support
+import Testing
 
 private struct DripBulk: Iterator.Chunk.`Protocol` {
     var storage: [Int]
@@ -40,7 +45,7 @@ extension `Iterator.Chunk Tests`.Unit {
     @Test
     func `next returns an empty span at exhaustion`() {
         var iter = DripBulk([Int]())
-        let span = iter.next(maximumCount: Cardinal.one)
+        let span = iter.next(maximumCount: Cardinal(1))
         let isEmpty = span.isEmpty
         #expect(isEmpty)
     }

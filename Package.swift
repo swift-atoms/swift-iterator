@@ -105,8 +105,10 @@ let package = Package(
             dependencies: [
                 .target(name: "Iterator"),
                 .target(name: "Iterator Protocol"),
-                .product(name: "Carrier", package: "swift-carrier"),
+                .product(name: "Carrier Protocol", package: "swift-carrier"),
                 .product(name: "Cardinal", package: "swift-cardinal"),
+                .product(name: "Cardinal Add", package: "swift-cardinal"),
+                .product(name: "Cardinal Subtract", package: "swift-cardinal"),
                 .product(
                     name: "Cardinal Standard Library Integration",
                     package: "swift-cardinal"
@@ -132,7 +134,13 @@ let package = Package(
         ),
         .testTarget(
             name: "Iterator Chunk Tests",
-            dependencies: [.target(name: "Iterator Test Support")]
+            dependencies: [
+                .target(name: "Iterator Chunk"),
+                .target(name: "Iterator Test Support"),
+                .product(name: "Carrier Protocol", package: "swift-carrier"),
+                .product(name: "Cardinal", package: "swift-cardinal"),
+                .product(name: "Cardinal Carrier", package: "swift-cardinal"),
+            ]
         ),
         .testTarget(
             name: "Iterable Tests",

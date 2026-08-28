@@ -1,5 +1,9 @@
 public import Cardinal
+public import Cardinal_Add
+public import Cardinal_Subtract
 public import Cardinal_Standard_Library_Integration
+public import Carrier_Protocol
+public import Iterator
 
 extension Iterator {
 
