@@ -1,4 +1,4 @@
-import Iterator_Primitives_Test_Support
+import Iterator_Test_Support
 
 private struct DripBulk: Iterator.Chunk.`Protocol` {
     var storage: [Int]

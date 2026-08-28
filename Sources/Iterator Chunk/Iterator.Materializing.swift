@@ -1,5 +1,5 @@
-public import Cardinal_Primitives
-public import Iterator_Primitive
+public import Cardinal
+public import Iterator
 public import Iterator_Protocol
 
 extension Iterator {

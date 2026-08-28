@@ -1,5 +1,5 @@
-public import Cardinal_Primitives
-public import Cardinal_Primitives_Standard_Library_Integration
+public import Cardinal
+public import Cardinal_Standard_Library_Integration
 
 extension Iterator {
 

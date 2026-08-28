@@ -1,4 +1,4 @@
-public import Cardinal_Primitives
+public import Cardinal
 
 public protocol __IteratorChunkProtocol<Element, Failure>: ~Copyable, ~Escapable {
 

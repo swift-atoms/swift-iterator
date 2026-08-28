@@ -1,7 +1,7 @@
 # Iterator Primitives
 
 ![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
-[![CI](https://github.com/swift-primitives/swift-iterator-primitives/actions/workflows/ci.yml/badge.svg)](https://github.com/swift-primitives/swift-iterator-primitives/actions/workflows/ci.yml)
+[![CI](https://github.com/swift-atoms/swift-iterator/actions/workflows/ci.yml/badge.svg)](https://github.com/swift-atoms/swift-iterator/actions/workflows/ci.yml)
 
 Single-pass iteration in three composable pieces: a protocol you conform to (`Iterator.Protocol`), a closure-backed type-erased witness (`Iteration`), and an attachable capability (`Iterable`) that gives any container `forEach` / `reduce` / `first` / `contains` / `allSatisfy`.
 
@@ -24,7 +24,7 @@ Unlike the standard library's `IteratorProtocol`, the element and the iterator i
 Conform a type to the iterator protocol — it works for move-only `Self` and elements:
 
 ```swift
-import Iterator_Primitives
+import Iterator
 
 struct Countdown: Iterator.`Protocol` {
     var n: Int
@@ -57,15 +57,15 @@ sevens.next() // 7  (forever)
 Make a container `Iterable` with one method and get terminals for free:
 
 ```swift
-import Iterator_Chunk_Primitives
+import Iterator_Chunk
 
 struct IntSource: Iterable {
     let values: [Int]
     // Inside an `Iterable`, `Iterator` is the protocol's associated type,
     // so the span-backed chunk iterator is module-qualified:
     @_lifetime(borrow self)
-    borrowing func makeIterator() -> Iterator_Chunk_Primitives.Iterator.Chunk<Int> {
-        Iterator_Chunk_Primitives.Iterator.Chunk(values.span)
+    borrowing func makeIterator() -> Iterator_Chunk.Iterator.Chunk<Int> {
+        Iterator_Chunk.Iterator.Chunk(values.span)
     }
 }
 
@@ -83,7 +83,7 @@ Add the dependency to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-primitives/swift-iterator-primitives.git", branch: "main")
+    .package(url: "https://github.com/swift-atoms/swift-iterator.git", branch: "main")
 ]
 ```
 
@@ -93,7 +93,7 @@ Add the umbrella product to your target:
 .target(
     name: "App",
     dependencies: [
-        .product(name: "Iterator Primitives", package: "swift-iterator-primitives")
+        .product(name: "Iterator", package: "swift-iterator")
     ]
 )
 ```
@@ -115,7 +115,7 @@ Requires Swift 6.3.1 and macOS 26 / iOS 26 / tvOS 26 / watchOS 26 / visionOS 26 
 | `Iterator Once Primitives` | `Once<Element>` — the one-element owned iterator | The single-element case |
 | `Iterator Chunk Primitives` | `Iterator.Chunk` — a `Span`-backed bulk iterator | Iterating over a `Span` |
 | `Iterator Primitive` | The bare `Iterator` namespace enum | Namespace only (rare) |
-| `Iterator Primitives Test Support` | Re-exports for downstream test targets | Test target only |
+| `Iterator Test Support` | Re-exports for downstream test targets | Test target only |
 
 `Iterable` defines a container in terms of `Iterator.Protocol` (`makeIterator()`); the dependency is strictly one-way, so iteration carries no knowledge of any sequence or collection layer above it.
 
@@ -135,9 +135,9 @@ Requires Swift 6.3.1 and macOS 26 / iOS 26 / tvOS 26 / watchOS 26 / visionOS 26 
 
 ## Related Packages
 
-- [`swift-either-primitives`](https://github.com/swift-primitives/swift-either-primitives) — `Either`, used by the `Iterable` terminals.
-- [`swift-cardinal-primitives`](https://github.com/swift-primitives/swift-cardinal-primitives) — `Cardinal`, the counting type used in the bulk-iteration tier.
-- [`swift-carrier-primitives`](https://github.com/swift-primitives/swift-carrier-primitives) — `Carrier`, backing the span-based `Iterator.Chunk`.
+- [`swift-either`](https://github.com/swift-atoms/swift-either) — `Either`, used by the `Iterable` terminals.
+- [`swift-cardinal`](https://github.com/swift-atoms/swift-cardinal) — `Cardinal`, the counting type used in the bulk-iteration tier.
+- [`swift-carrier`](https://github.com/swift-atoms/swift-carrier) — `Carrier`, backing the span-based `Iterator.Chunk`.
 
 ---
 

@@ -1,6 +1,6 @@
-public import Cardinal_Primitives
-public import Either_Primitives
-public import Iterator_Chunk_Primitives
+public import Cardinal
+public import Either
+public import Iterator_Chunk
 
 extension Iterable
 where
