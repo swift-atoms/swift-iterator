@@ -1,4 +1,6 @@
 public import Cardinal
+public import Iterator_Primitive
+public import Iterator_Protocol
 
 extension Iterator {
 
@@ -27,7 +29,7 @@ where Source: ~Copyable & ~Escapable, Source.Element: Copyable & Escapable {
     @inlinable
     @_lifetime(&self)
     public mutating func next(
-        maximumCount: Cardinal
+        maximumCount: some Carrier.`Protocol`<Cardinal>
     ) throws(Source.Failure) -> Swift.Span<Source.Element> {
         if let value = try source.next() {
             if slot.isEmpty { slot.append(value) } else { slot[0] = value }

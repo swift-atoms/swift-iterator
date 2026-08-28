@@ -12,50 +12,148 @@ let package = Package(
         .visionOS(.v27),
     ],
     products: [
+
+        .library(
+            name: "Iterator Primitive",
+            targets: ["Iterator Primitive"]
+        ),
+
+        .library(
+            name: "Iterator Protocol",
+            targets: ["Iterator Protocol"]
+        ),
+
+        .library(
+            name: "Iterator Witness",
+            targets: ["Iterator Witness"]
+        ),
+
+        .library(
+            name: "Iterable",
+            targets: ["Iterable"]
+        ),
+
+        .library(
+            name: "Iterator Once",
+            targets: ["Iterator Once"]
+        ),
+
+        .library(
+            name: "Iterator Chunk",
+            targets: ["Iterator Chunk"]
+        ),
+
         .library(
             name: "Iterator",
             targets: ["Iterator"]
         ),
+
         .library(
-            name: "Iterator Standard Library Integration",
-            targets: ["Iterator Standard Library Integration"]
-        ),
-        .library(
-            name: "Iterator Apple Foundation Integration",
-            targets: ["Iterator Apple Foundation Integration"]
+            name: "Iterator Test Support",
+            targets: ["Iterator Test Support"]
         ),
     ],
     dependencies: [
         .package(
-            url: "https://github.com/swift-atoms/swift-cardinal.git",
+            url: "https://github.com/swift-molecules/swift-carrier.git",
+            branch: "main"
+        ),
+        .package(
+            url: "https://github.com/swift-molecules/swift-cardinal.git",
+            branch: "main"
+        ),
+        .package(
+            url: "https://github.com/swift-molecules/swift-either.git",
             branch: "main"
         ),
     ],
     targets: [
+
+        .target(
+            name: "Iterator Primitive",
+            dependencies: []
+        ),
+
+        .target(
+            name: "Iterator Protocol",
+            dependencies: [
+                "Iterator Primitive"
+            ]
+        ),
+
+        .target(
+            name: "Iterator Witness",
+            dependencies: [
+                "Iterator Protocol"
+            ]
+        ),
+
+        .target(
+            name: "Iterable",
+            dependencies: [
+                "Iterator Protocol",
+                "Iterator Chunk",
+                .product(name: "Either", package: "swift-either"),
+                .product(name: "Cardinal", package: "swift-cardinal"),
+            ]
+        ),
+
+        .target(
+            name: "Iterator Once",
+            dependencies: [
+                "Iterator Protocol"
+            ]
+        ),
+
+        .target(
+            name: "Iterator Chunk",
+            dependencies: [
+                "Iterator Primitive",
+                "Iterator Protocol",
+                .product(name: "Carrier", package: "swift-carrier"),
+                .product(name: "Cardinal", package: "swift-cardinal"),
+                .product(
+                    name: "Cardinal Standard Library Integration",
+                    package: "swift-cardinal"
+                ),
+            ]
+        ),
+
         .target(
             name: "Iterator",
             dependencies: [
-                .product(name: "Cardinal", package: "swift-cardinal"),
+                "Iterator Primitive",
+                "Iterator Protocol",
+                "Iterator Witness",
+                "Iterable",
+                "Iterator Once",
+                "Iterator Chunk",
             ]
         ),
+
         .target(
-            name: "Iterator Standard Library Integration",
-            dependencies: ["Iterator"]
-        ),
-        .target(
-            name: "Iterator Apple Foundation Integration",
+            name: "Iterator Test Support",
             dependencies: [
-                "Iterator",
-                "Iterator Standard Library Integration",
-            ]
+                "Iterator"
+            ],
+            path: "Tests/Support"
+        ),
+
+        .testTarget(
+            name: "Iteration Tests",
+            dependencies: ["Iterator Test Support"]
         ),
         .testTarget(
-            name: "Iterator Tests",
-            dependencies: [
-                "Iterator",
-                .product(name: "Cardinal", package: "swift-cardinal"),
-            ],
-            path: "Tests/Iterator Tests"
+            name: "Iterator Once Tests",
+            dependencies: ["Iterator Test Support"]
+        ),
+        .testTarget(
+            name: "Iterator Chunk Tests",
+            dependencies: ["Iterator Test Support"]
+        ),
+        .testTarget(
+            name: "Iterable Tests",
+            dependencies: ["Iterator Test Support"]
         ),
     ],
     swiftLanguageModes: [.v6]
