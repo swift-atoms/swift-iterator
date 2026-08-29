@@ -5,7 +5,7 @@ import Iterator_Chunk
 import Iterator_Test_Support
 import Testing
 
-private struct DripBulk: Iterator.Chunk.`Protocol` {
+private struct DripBulk: Iterator::Iterator.Chunk.`Protocol` {
     var storage: [Int]
     var pos: Int = 0
     init(_ storage: [Int]) { self.storage = storage }

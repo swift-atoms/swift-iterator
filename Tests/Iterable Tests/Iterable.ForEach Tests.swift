@@ -1,18 +1,19 @@
+import Iterable
 import Iterator_Chunk
 import Iterator_Test_Support
 
-private struct IntSource: Iterable {
+private struct IntSource: Iterable::Iterable {
     let values: [Int]
 }
 
 extension IntSource {
     @_lifetime(borrow self)
-    borrowing func makeIterator() -> Iterator_Chunk.Iterator.Chunk<Int> {
-        Iterator_Chunk.Iterator.Chunk(values.span)
+    borrowing func makeIterator() -> Iterator::Iterator.Chunk<Int> {
+        Iterator::Iterator.Chunk(values.span)
     }
 }
 
-private struct IntCursor: Iterable, ~Escapable {
+private struct IntCursor: Iterable::Iterable, ~Escapable {
     let values: Swift.Span<Int>
 
     @_lifetime(copy values)
@@ -23,8 +24,8 @@ private struct IntCursor: Iterable, ~Escapable {
 
 extension IntCursor {
     @_lifetime(borrow self)
-    borrowing func makeIterator() -> Iterator_Chunk.Iterator.Chunk<Int> {
-        Iterator_Chunk.Iterator.Chunk(values)
+    borrowing func makeIterator() -> Iterator::Iterator.Chunk<Int> {
+        Iterator::Iterator.Chunk(values)
     }
 }
 

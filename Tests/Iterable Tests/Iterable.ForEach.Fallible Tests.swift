@@ -1,6 +1,8 @@
 import Cardinal
 import Carrier
+import Carrier_Protocol
 import Either
+import Iterable
 import Iterator_Chunk
 import Iterator_Test_Support
 
@@ -35,7 +37,7 @@ extension FailingChunk: __IteratorChunkProtocol {
     }
 }
 
-private struct FailingSource: Iterable {
+private struct FailingSource: Iterable::Iterable {
     let values: [Int]
     let failAt: Int
 }
