@@ -86,4 +86,16 @@ extension `Iterator.Chunk Tests`.Unit {
         #expect(iter.next() == 50)
         #expect(iter.next() == nil)
     }
+
+    @Test
+    func `skip preserves typed cardinal boundaries and reports the actual count`() {
+        var iter = DripBulk([10, 20, 30])
+
+        let first: Cardinal = iter.skip(by: Cardinal(2))
+        #expect(first == Cardinal(2))
+
+        let exhausted: Cardinal = iter.skip(by: Cardinal(4))
+        #expect(exhausted == Cardinal(1))
+        #expect(iter.next() == nil)
+    }
 }
