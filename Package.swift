@@ -13,8 +13,8 @@ let package = Package(
     ],
     products: [
         .library(name: "Iterator", targets: ["Iterator"]),
-        .library(name: "Iterator Standard Library Integration", targets: ["Iterator Standard Library Integration"]),
-        .library(name: "Iterator Foundation Library Integration", targets: ["Iterator Foundation Library Integration"]),
+
+        .library(name: "Iterator Foundation Integration", targets: ["Iterator Foundation Integration"]),
         .library(name: "Iterator Test Support", targets: ["Iterator Test Support"]),
     ],
     dependencies: [
@@ -38,24 +38,16 @@ let package = Package(
                 .product(name: "Either", package: "swift-either"),
                 .product(name: "Cardinal", package: "swift-cardinal"),
                 .product(name: "Carrier", package: "swift-carrier"),
-                .product(name: "Cardinal Standard Library Integration", package: "swift-cardinal"),
             ],
             path: "Sources/Iterator"
         ),
+        
         .target(
-            name: "Iterator Standard Library Integration",
+            name: "Iterator Foundation Integration",
             dependencies: [
                 .target(name: "Iterator"),
             ],
-            path: "Sources/Iterator Standard Library Integration"
-        ),
-        .target(
-            name: "Iterator Foundation Library Integration",
-            dependencies: [
-                .target(name: "Iterator"),
-                .target(name: "Iterator Standard Library Integration"),
-            ],
-            path: "Sources/Iterator Foundation Library Integration"
+            path: "Sources/Iterator Foundation Integration"
         ),
         .target(
             name: "Iterator Test Support",
@@ -71,10 +63,8 @@ let package = Package(
                 .target(name: "Iterator Test Support"),
                 .product(name: "Carrier", package: "swift-carrier"),
                 .product(name: "Cardinal", package: "swift-cardinal"),
-                .product(name: "Cardinal Standard Library Integration", package: "swift-cardinal"),
                 .product(name: "Either", package: "swift-either"),
-                .target(name: "Iterator Standard Library Integration"),
-                .target(name: "Iterator Foundation Library Integration"),
+                .target(name: "Iterator Foundation Integration"),
             ],
             path: "Tests/Iterator Tests"
         ),

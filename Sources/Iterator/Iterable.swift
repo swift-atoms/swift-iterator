@@ -1,4 +1,3 @@
-
 public protocol Iterable: ~Copyable, ~Escapable {
 
     associatedtype Iterator: __IteratorChunkProtocol, ~Copyable, ~Escapable
