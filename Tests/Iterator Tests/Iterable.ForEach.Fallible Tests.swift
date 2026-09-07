@@ -47,13 +47,13 @@ extension FailingSource {
     }
 }
 
-@Suite struct `Iterable ForEach Fallible Tests` {
-    @Suite struct `Edge Case` {}
-    @Suite struct Integration {}
-    @Suite struct Unit {}
+@Suite struct `Fallible traversal distinguishes iterator failures from body failures` {
+    @Suite struct `No fallible iterable traversal boundary cases are defined` {}
+    @Suite struct `No fallible iterable traversal integration cases are defined` {}
+    @Suite struct `Fallible iterable operations preserve the origin of each failure` {}
 }
 
-extension `Iterable ForEach Fallible Tests`.Unit {
+extension `Fallible traversal distinguishes iterator failures from body failures`.`Fallible iterable operations preserve the origin of each failure` {
     @Test
     func `an iterator failure surfaces as Either.right`() {
         let source = FailingSource(values: [10, 20, 30], failAt: 2)

@@ -12,13 +12,13 @@ extension IntSource {
     }
 }
 
-@Suite struct `Iterable Terminals Tests` {
-    @Suite struct `Edge Case` {}
-    @Suite struct Integration {}
-    @Suite struct Unit {}
+@Suite struct `Iterable terminal operations inspect and reduce elements without consumption` {
+    @Suite struct `No iterable terminal boundary cases are defined` {}
+    @Suite struct `No iterable terminal integration cases are defined` {}
+    @Suite struct `Iterable terminal operations preserve matches reductions and repeatability` {}
 }
 
-extension `Iterable Terminals Tests`.Unit {
+extension `Iterable terminal operations inspect and reduce elements without consumption`.`Iterable terminal operations preserve matches reductions and repeatability` {
     @Test
     func `contains(where:) is true at the first match, false when none matches`() {
         let source = IntSource(values: [1, 2, 3])

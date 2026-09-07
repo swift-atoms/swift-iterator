@@ -14,15 +14,15 @@ extension CountingIterator {
     }
 }
 
-@Suite struct `Iteration Tests` {
-    @Suite struct Unit {}
-    @Suite struct `Type Erasure` {}
-    @Suite struct Repeating {}
-    @Suite struct `Edge Case` {}
-    @Suite struct Integration {}
+@Suite struct `Iteration supports closure sources type erasure and repetition` {
+    @Suite struct `Closure backed iterators yield values and remain exhausted` {}
+    @Suite struct `Type erased iteration wraps a copyable source` {}
+    @Suite struct `Repeating iteration continues yielding the same element` {}
+    @Suite struct `No iteration boundary cases are defined` {}
+    @Suite struct `No iteration integration cases are defined` {}
 }
 
-extension `Iteration Tests`.Unit {
+extension `Iteration supports closure sources type erasure and repetition`.`Closure backed iterators yield values and remain exhausted` {
     @Test
     func `closure-backed iterator yields then exhausts`() {
         var values = [1, 2, 3]
@@ -45,9 +45,9 @@ extension `Iteration Tests`.Unit {
     }
 }
 
-extension `Iteration Tests`.`Type Erasure` {
+extension `Iteration supports closure sources type erasure and repetition`.`Type erased iteration wraps a copyable source` {
     @Test
-    func `wraps a Copyable source iterator`() {
+    func `Type erased iteration wraps a copyable source iterator`() {
         let source = CountingIterator(upTo: 2)
         var iter = Iteration(source)
 
@@ -57,7 +57,7 @@ extension `Iteration Tests`.`Type Erasure` {
     }
 }
 
-extension `Iteration Tests`.Repeating {
+extension `Iteration supports closure sources type erasure and repetition`.`Repeating iteration continues yielding the same element` {
     @Test
     func `repeating factory yields the element forever`() {
 

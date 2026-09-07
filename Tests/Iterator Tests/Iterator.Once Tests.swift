@@ -6,13 +6,13 @@ private struct Token: ~Copyable {
     init(_ id: Int) { self.id = id }
 }
 
-@Suite struct `Iterator.Once Tests` {
-    @Suite struct `Edge Case` {}
-    @Suite struct Integration {}
-    @Suite struct Unit {}
+@Suite struct `Once iterators yield one value and remain exhausted` {
+    @Suite struct `No once iterator boundary cases are defined` {}
+    @Suite struct `No once iterator integration cases are defined` {}
+    @Suite struct `Once iteration preserves exhaustion and noncopyable elements` {}
 }
 
-extension `Iterator.Once Tests`.Unit {
+extension `Once iterators yield one value and remain exhausted`.`Once iteration preserves exhaustion and noncopyable elements` {
     @Test
     func `once iterator yields one element then nil`() {
         var iter = Iterator.Once(42)
