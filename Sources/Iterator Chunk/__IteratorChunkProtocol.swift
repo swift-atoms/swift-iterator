@@ -1,7 +1,5 @@
 public import Cardinal
-public import Cardinal_Carrier
-public import Cardinal_Subtract
-public import Carrier_Protocol
+public import Carrier
 
 public protocol __IteratorChunkProtocol<Element, Failure>: ~Copyable, ~Escapable {
 

@@ -90,7 +90,6 @@ let package = Package(
                 .target(name: "Iterator Chunk"),
                 .product(name: "Either", package: "swift-either"),
                 .product(name: "Cardinal", package: "swift-cardinal"),
-                .product(name: "Cardinal Carrier", package: "swift-cardinal"),
             ]
         ),
 
@@ -106,10 +105,8 @@ let package = Package(
             dependencies: [
                 .target(name: "Iterator"),
                 .target(name: "Iterator Protocol"),
-                .product(name: "Carrier Protocol", package: "swift-carrier"),
+                .product(name: "Carrier", package: "swift-carrier"),
                 .product(name: "Cardinal", package: "swift-cardinal"),
-                .product(name: "Cardinal Add", package: "swift-cardinal"),
-                .product(name: "Cardinal Subtract", package: "swift-cardinal"),
                 .product(
                     name: "Cardinal Standard Library Integration",
                     package: "swift-cardinal"
@@ -149,9 +146,8 @@ let package = Package(
                 .target(name: "Iterator Chunk"),
                 .target(name: "Iterator Protocol"),
                 .target(name: "Iterator Test Support"),
-                .product(name: "Carrier Protocol", package: "swift-carrier"),
+                .product(name: "Carrier", package: "swift-carrier"),
                 .product(name: "Cardinal", package: "swift-cardinal"),
-                .product(name: "Cardinal Carrier", package: "swift-cardinal"),
             ]
         ),
         .testTarget(
@@ -162,11 +158,8 @@ let package = Package(
                 .target(name: "Iterator Chunk"),
                 .target(name: "Iterator Protocol"),
                 .target(name: "Iterator Test Support"),
-                .product(name: "Carrier Protocol", package: "swift-carrier"),
+                .product(name: "Carrier", package: "swift-carrier"),
                 .product(name: "Cardinal", package: "swift-cardinal"),
-                .product(name: "Cardinal Carrier", package: "swift-cardinal"),
-                .product(name: "Cardinal Add", package: "swift-cardinal"),
-                .product(name: "Cardinal Subtract", package: "swift-cardinal"),
                 .product(
                     name: "Cardinal Standard Library Integration",
                     package: "swift-cardinal"

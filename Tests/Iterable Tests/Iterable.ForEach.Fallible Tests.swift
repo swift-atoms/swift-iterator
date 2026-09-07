@@ -1,6 +1,5 @@
 import Cardinal
 import Carrier
-import Carrier_Protocol
 import Either
 import Iterable
 import Iterator_Chunk
