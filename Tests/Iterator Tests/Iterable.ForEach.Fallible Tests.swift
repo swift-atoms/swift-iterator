@@ -1,8 +1,7 @@
 import Cardinal
 import Carrier
 import Either
-import Iterable
-import Iterator_Chunk
+import Iterator
 import Iterator_Test_Support
 
 private enum SourceError: Swift.Error { case boom }
@@ -36,7 +35,7 @@ extension FailingChunk: __IteratorChunkProtocol {
     }
 }
 
-private struct FailingSource: Iterable::Iterable {
+private struct FailingSource: Iterator::Iterable {
     let values: [Int]
     let failAt: Int
 }

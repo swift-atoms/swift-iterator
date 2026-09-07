@@ -1,8 +1,7 @@
-import Iterable
-import Iterator_Chunk
+import Iterator
 import Iterator_Test_Support
 
-private struct IntSource: Iterable::Iterable {
+private struct IntSource: Iterator::Iterable {
     let values: [Int]
 }
 
@@ -13,7 +12,7 @@ extension IntSource {
     }
 }
 
-private struct IntCursor: Iterable::Iterable, ~Escapable {
+private struct IntCursor: Iterator::Iterable, ~Escapable {
     let values: Swift.Span<Int>
 
     @_lifetime(copy values)

@@ -12,41 +12,10 @@ let package = Package(
         .visionOS(.v27),
     ],
     products: [
-
-        .library(
-            name: "Iterator Protocol",
-            targets: ["Iterator Protocol"]
-        ),
-
-        .library(
-            name: "Iterator Witness",
-            targets: ["Iterator Witness"]
-        ),
-
-        .library(
-            name: "Iterable",
-            targets: ["Iterable"]
-        ),
-
-        .library(
-            name: "Iterator Once",
-            targets: ["Iterator Once"]
-        ),
-
-        .library(
-            name: "Iterator Chunk",
-            targets: ["Iterator Chunk"]
-        ),
-
-        .library(
-            name: "Iterator",
-            targets: ["Iterator"]
-        ),
-
-        .library(
-            name: "Iterator Test Support",
-            targets: ["Iterator Test Support"]
-        ),
+        .library(name: "Iterator", targets: ["Iterator"]),
+        .library(name: "Iterator Standard Library Integration", targets: ["Iterator Standard Library Integration"]),
+        .library(name: "Iterator Foundation Library Integration", targets: ["Iterator Foundation Library Integration"]),
+        .library(name: "Iterator Test Support", targets: ["Iterator Test Support"]),
     ],
     dependencies: [
         .package(
@@ -63,116 +32,58 @@ let package = Package(
         ),
     ],
     targets: [
-
         .target(
             name: "Iterator",
-            dependencies: []
-        ),
-
-        .target(
-            name: "Iterator Protocol",
             dependencies: [
-                .target(name: "Iterator")
-            ]
-        ),
-
-        .target(
-            name: "Iterator Witness",
-            dependencies: [
-                .target(name: "Iterator Protocol")
-            ]
-        ),
-
-        .target(
-            name: "Iterable",
-            dependencies: [
-                .target(name: "Iterator Protocol"),
-                .target(name: "Iterator Chunk"),
                 .product(name: "Either", package: "swift-either"),
                 .product(name: "Cardinal", package: "swift-cardinal"),
-            ]
+                .product(name: "Carrier", package: "swift-carrier"),
+                .product(name: "Cardinal Standard Library Integration", package: "swift-cardinal"),
+            ],
+            path: "Sources/Iterator"
         ),
-
         .target(
-            name: "Iterator Once",
-            dependencies: [
-                .target(name: "Iterator Protocol")
-            ]
-        ),
-
-        .target(
-            name: "Iterator Chunk",
+            name: "Iterator Standard Library Integration",
             dependencies: [
                 .target(name: "Iterator"),
-                .target(name: "Iterator Protocol"),
-                .product(name: "Carrier", package: "swift-carrier"),
-                .product(name: "Cardinal", package: "swift-cardinal"),
-                .product(
-                    name: "Cardinal Standard Library Integration",
-                    package: "swift-cardinal"
-                ),
-            ]
+            ],
+            path: "Sources/Iterator Standard Library Integration"
         ),
-
+        .target(
+            name: "Iterator Foundation Library Integration",
+            dependencies: [
+                .target(name: "Iterator"),
+                .target(name: "Iterator Standard Library Integration"),
+            ],
+            path: "Sources/Iterator Foundation Library Integration"
+        ),
         .target(
             name: "Iterator Test Support",
             dependencies: [
-                .target(name: "Iterator")
+                .target(name: "Iterator"),
             ],
             path: "Tests/Support"
         ),
-
         .testTarget(
-            name: "Iteration Tests",
+            name: "Iterator Tests",
             dependencies: [
                 .target(name: "Iterator"),
-                .target(name: "Iterator Protocol"),
-                .target(name: "Iterator Test Support"),
-                .target(name: "Iterator Witness"),
-            ]
-        ),
-        .testTarget(
-            name: "Iterator Once Tests",
-            dependencies: [
-                .target(name: "Iterator"),
-                .target(name: "Iterator Once"),
-                .target(name: "Iterator Test Support"),
-            ]
-        ),
-        .testTarget(
-            name: "Iterator Chunk Tests",
-            dependencies: [
-                .target(name: "Iterator"),
-                .target(name: "Iterator Chunk"),
-                .target(name: "Iterator Protocol"),
                 .target(name: "Iterator Test Support"),
                 .product(name: "Carrier", package: "swift-carrier"),
                 .product(name: "Cardinal", package: "swift-cardinal"),
-            ]
-        ),
-        .testTarget(
-            name: "Iterable Tests",
-            dependencies: [
-                .target(name: "Iterable"),
-                .target(name: "Iterator"),
-                .target(name: "Iterator Chunk"),
-                .target(name: "Iterator Protocol"),
-                .target(name: "Iterator Test Support"),
-                .product(name: "Carrier", package: "swift-carrier"),
-                .product(name: "Cardinal", package: "swift-cardinal"),
-                .product(
-                    name: "Cardinal Standard Library Integration",
-                    package: "swift-cardinal"
-                ),
+                .product(name: "Cardinal Standard Library Integration", package: "swift-cardinal"),
                 .product(name: "Either", package: "swift-either"),
-            ]
+                .target(name: "Iterator Standard Library Integration"),
+                .target(name: "Iterator Foundation Library Integration"),
+            ],
+            path: "Tests/Iterator Tests"
         ),
     ],
     swiftLanguageModes: [.v6]
 )
 
-for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
-    let ecosystem: [SwiftSetting] = [
+for target in package.targets {
+    target.swiftSettings = [
         .strictMemorySafety(),
         .enableUpcomingFeature("ExistentialAny"),
         .enableUpcomingFeature("InternalImportsByDefault"),
@@ -181,8 +92,4 @@ for target in package.targets where ![.system, .binary, .plugin, .macro].contain
         .enableExperimentalFeature("Lifetimes"),
         .enableUpcomingFeature("InferIsolatedConformances"),
     ]
-
-    let package: [SwiftSetting] = []
-
-    target.swiftSettings = (target.swiftSettings ?? []) + ecosystem + package
 }

@@ -1,7 +1,6 @@
 public import Cardinal
 public import Cardinal_Standard_Library_Integration
 public import Carrier
-public import Iterator
 
 extension Iterator {
 

@@ -1,50 +1,40 @@
 public import Cardinal
-public import Cardinal_Carrier
 public import Either
-public import Iterator_Chunk
 
-extension Iterable
-where
-    Self: ~Copyable & ~Escapable,
-    Iterator.Failure == Never,
-    Iterator.Element: Copyable & Escapable
-{
+extension Iterable where Self: ~Copyable & ~Escapable, Iterator.Failure == Never {
 
     @inlinable
-    public borrowing func first<E: Swift.Error>(
+    public borrowing func contains<E: Swift.Error>(
         where predicate: (borrowing Iterator.Element) throws(E) -> Bool
-    ) throws(E) -> Iterator.Element? {
+    ) throws(E) -> Bool {
         var iterator = makeIterator()
         while true {
             let span = iterator.next(maximumCount: Cardinal(UInt.max))
             if span.isEmpty { break }
             for i in span.indices {
-                let element = span[i]
-                if try predicate(element) { return element }
+                if try predicate(span[i]) { return true }
             }
         }
-        return nil
+        return false
     }
 }
 
-extension Iterable
-where Self: ~Copyable & ~Escapable, Iterator.Element: Copyable & Escapable {
+extension Iterable where Self: ~Copyable & ~Escapable {
 
     @inlinable
-    public borrowing func first<E: Swift.Error>(
+    public borrowing func contains<E: Swift.Error>(
         where predicate: (borrowing Iterator.Element) throws(E) -> Bool
-    ) throws(Either<E, Iterator.Failure>) -> Iterator.Element? {
+    ) throws(Either<E, Iterator.Failure>) -> Bool {
         var iterator = makeIterator()
         while true {
             let span: Swift.Span<Iterator.Element>
             do throws(Iterator.Failure) {
                 span = try iterator.next(maximumCount: Cardinal(UInt.max))
             } catch { throw Either.right(error) }
-            if span.isEmpty { return nil }
+            if span.isEmpty { return false }
             for i in span.indices {
-                let element = span[i]
                 do throws(E) {
-                    if try predicate(element) { return element }
+                    if try predicate(span[i]) { return true }
                 } catch {
                     throw Either.left(error)
                 }

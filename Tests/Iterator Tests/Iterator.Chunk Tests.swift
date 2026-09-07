@@ -1,6 +1,6 @@
 import Cardinal
 import Carrier
-import Iterator_Chunk
+import Iterator
 import Iterator_Test_Support
 import Testing
 

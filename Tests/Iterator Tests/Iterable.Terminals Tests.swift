@@ -1,8 +1,7 @@
-import Iterable
-import Iterator_Chunk
+import Iterator
 import Iterator_Test_Support
 
-private struct IntSource: Iterable::Iterable {
+private struct IntSource: Iterator::Iterable {
     let values: [Int]
 }
 

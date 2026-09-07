@@ -1,6 +1,5 @@
-import Iterator_Protocol
+import Iterator
 import Iterator_Test_Support
-import Iterator_Witness
 
 private struct CountingIterator: Iterator::Iterator.`Protocol` {
     var n: Int

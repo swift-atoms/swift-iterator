@@ -1,4 +1,4 @@
-import Iterator_Once
+import Iterator
 import Iterator_Test_Support
 
 private struct Token: ~Copyable {
