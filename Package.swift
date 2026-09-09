@@ -17,7 +17,13 @@ let package = Package(
         .library(name: "Iterator Foundation Integration", targets: ["Iterator Foundation Integration"]),
         .library(name: "Iterator Test Support", targets: ["Iterator Test Support"]),
     ],
+    traits: [
+        .trait(name: "Prefix", description: "Prefix selection integration"),
+        .default(enabledTraits: ["Prefix"]),
+    ],
     dependencies: [
+        .package(url: "https://github.com/swift-atoms/swift-predicate.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-prefix.git", branch: "main"),
         .package(
             url: "https://github.com/swift-atoms/swift-carrier.git",
             branch: "main"
@@ -32,9 +38,18 @@ let package = Package(
         ),
     ],
     targets: [
+        .testTarget(name: "Prefix Iterator Tests", dependencies: [
+            .target(name: "Iterator"),
+            .product(name: "Prefix", package: "swift-prefix", condition: .when(traits: ["Prefix"])),
+                .product(name: "Predicate", package: "swift-predicate", condition: .when(traits: ["Prefix"])),
+            .product(name: "Either", package: "swift-either"),
+            .product(name: "Cardinal", package: "swift-cardinal"),
+        ]),
         .target(
             name: "Iterator",
             dependencies: [
+                .product(name: "Prefix", package: "swift-prefix", condition: .when(traits: ["Prefix"])),
+                .product(name: "Predicate", package: "swift-predicate", condition: .when(traits: ["Prefix"])),
                 .product(name: "Either", package: "swift-either"),
                 .product(name: "Cardinal", package: "swift-cardinal"),
                 .product(name: "Carrier", package: "swift-carrier"),
