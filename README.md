@@ -1,12 +1,20 @@
 # swift-iterator
 
-## Prefix integration
+Iterator.Buffered owns a forward source and unread elements. `unread` replays
+owned elements before advancing the base. Continue through the wrapper rather
+than bypassing it. This capability is independent of search and is not arbitrary
+checkpoint restoration. Buffered elements may be noncopyable but must be escapable.
+Iterator.Standard adapts a Swift iterator; Iterator.Flattened materializes elements
+from chunks. `bufferedIterator()` constructs these adapters for sequences/iterables.
 
-The default-enabled `Prefix` trait supplies this package's interpretation of the
-independent prefix selectors from swift-prefix. Use this package's library product;
-no separate integration product is required.
+Default-enabled Search and Repetition traits provide execution integrations:
 
-`Prefix.Iterator` owns forward input and unread lookahead. Continue through the
-same wrapper after selection. `forEach(in:_:)`, `forEach(from:_:)`, and
-`prefixIterator()` preserve their existing consumption and ownership contracts.
-These APIs moved from the Prefix module into Iterator; import Iterator to use them.
+- Cardinal ranges bound element delivery. Direct delivery supports scoped and
+  noncopyable elements; chunk delivery borrows elements without copying.
+- Repetition of a Predicate stops before a rejected element, retaining it unread.
+- Search selection retains an excluded delimiter or includes it when selecting end.
+
+Source failures remain distinct from selection/count failures through Either.
+Already delivered outputs remain consumed on failure; pending candidate elements
+are retained. No consumer callbacks are rolled back. Legacy Cursor operations are
+outside this migration.

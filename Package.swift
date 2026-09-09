@@ -18,12 +18,14 @@ let package = Package(
         .library(name: "Iterator Test Support", targets: ["Iterator Test Support"]),
     ],
     traits: [
-        .trait(name: "Prefix", description: "Prefix selection integration"),
-        .default(enabledTraits: ["Prefix"]),
+        .trait(name: "Search", description: "Pattern search integration"),
+        .trait(name: "Repetition", description: "Bounded execution integration"),
+        .default(enabledTraits: ["Search", "Repetition"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/swift-atoms/swift-repetition.git", branch: "main"),
         .package(url: "https://github.com/swift-atoms/swift-predicate.git", branch: "main"),
-        .package(url: "https://github.com/swift-atoms/swift-prefix.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-search.git", branch: "main"),
         .package(
             url: "https://github.com/swift-atoms/swift-carrier.git",
             branch: "main"
@@ -38,18 +40,20 @@ let package = Package(
         ),
     ],
     targets: [
-        .testTarget(name: "Prefix Iterator Tests", dependencies: [
+        .testTarget(name: "Iterator Selection Tests", dependencies: [
+            .product(name: "Repetition", package: "swift-repetition", condition: .when(traits: ["Repetition"])),
             .target(name: "Iterator"),
-            .product(name: "Prefix", package: "swift-prefix", condition: .when(traits: ["Prefix"])),
-                .product(name: "Predicate", package: "swift-predicate", condition: .when(traits: ["Prefix"])),
+            .product(name: "Search", package: "swift-search", condition: .when(traits: ["Search"])),
+                .product(name: "Predicate", package: "swift-predicate", condition: .when(traits: ["Repetition"])),
             .product(name: "Either", package: "swift-either"),
             .product(name: "Cardinal", package: "swift-cardinal"),
         ]),
         .target(
             name: "Iterator",
             dependencies: [
-                .product(name: "Prefix", package: "swift-prefix", condition: .when(traits: ["Prefix"])),
-                .product(name: "Predicate", package: "swift-predicate", condition: .when(traits: ["Prefix"])),
+                .product(name: "Repetition", package: "swift-repetition", condition: .when(traits: ["Repetition"])),
+                .product(name: "Search", package: "swift-search", condition: .when(traits: ["Search"])),
+                .product(name: "Predicate", package: "swift-predicate", condition: .when(traits: ["Repetition"])),
                 .product(name: "Either", package: "swift-either"),
                 .product(name: "Cardinal", package: "swift-cardinal"),
                 .product(name: "Carrier", package: "swift-carrier"),

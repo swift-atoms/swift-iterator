@@ -2,6 +2,10 @@
 @_exported public import Carrier
 @_exported public import Either
 
-#if Prefix
-@_exported public import Prefix
+#if Search
+@_exported public import Search
+#endif
+
+#if Repetition
+@_exported public import Repetition
 #endif

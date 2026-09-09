@@ -1,17 +1,20 @@
-#if Prefix
-import Prefix
+#if Search && Repetition
+import Search
+import Repetition
+import Cardinal
+import Predicate
 import Predicate
 import Iterator
 import Either
 import Testing
 
 @Suite
-struct `Prefix.Iterator Tests` {
+struct `Iterator::Iterator.Buffered Tests` {
     @Test
     func `a predicate retains the first rejected element`() throws {
-        var input = "123x".prefixIterator()
+        var input = "123x".bufferedIterator()
         var selected = ""
-        try Prefix.While<Character>({ $0.isNumber }).forEach(in: &input) {
+        try Repetition((Cardinal.zero...), operation: Predicate<Character>({ $0.isNumber })).forEach(in: &input) {
             selected.append($0)
         }
         #expect(selected == "123")
@@ -21,22 +24,22 @@ struct `Prefix.Iterator Tests` {
 
     @Test
     func `up to retains the complete delimiter and through consumes it`() throws {
-        var input = "aaab!".prefixIterator()
+        var input = "aaab!".bufferedIterator()
         var selected = ""
-        try Prefix.UpTo("aab").forEach(in: &input) { selected.append($0) }
+        try Search("aab").selecting(.start).forEach(in: &input) { selected.append($0) }
         #expect(selected == "a")
         selected = ""
-        try Prefix.Through("aab").forEach(in: &input) { selected.append($0) }
+        try Search("aab").selecting(.end).forEach(in: &input) { selected.append($0) }
         #expect(selected == "aab")
         #expect(input.next() == "!")
     }
 
     @Test
     func `a missing delimiter preserves pending candidates`() {
-        var input = "abc-".prefixIterator()
+        var input = "abc-".bufferedIterator()
         var selected = ""
-        #expect(throws: Either<Prefix.UpTo<String>.Error, Never>.left(.delimiterNotFound)) {
-            try Prefix.UpTo("--").forEach(in: &input) { selected.append($0) }
+        #expect(throws: Either<Search<String>.Error, Never>.left(.notFound)) {
+            try Search("--").selecting(.start).forEach(in: &input) { selected.append($0) }
         }
         #expect(selected == "abc")
         #expect(input.next() == "-")
@@ -45,18 +48,18 @@ struct `Prefix.Iterator Tests` {
     @Test
     func `maximum count performs no extra read`() throws {
         let reads = Counts()
-        var input = Prefix.Iterator(Numbers(counts: reads))
-        try Prefix(maximum: 2).forEach(in: &input) { _ in }
+        var input = Iterator::Iterator.Buffered(Numbers(counts: reads))
+        try (Cardinal.zero...Cardinal(UInt(2))).forEach(in: &input) { _ in }
         #expect(reads.read == 2)
         #expect(input.next() == 2)
     }
 
     @Test
     func `minimum failure keeps partial delivery explicit`() {
-        var input = [1].prefixIterator()
+        var input = [1].bufferedIterator()
         var selected: [Int] = []
-        #expect(throws: Either<Prefix.Error, Never>.left(.insufficientElements(minimum: 2, actual: 1))) {
-            try Prefix(minimum: 2).forEach(in: &input) { selected.append($0) }
+        #expect(throws: Either<Repetition<PartialRangeFrom<Cardinal>, Void>.Error, Never>.left(.insufficient(actual: 1))) {
+            try (Cardinal(UInt(2))...).forEach(in: &input) { selected.append($0) }
         }
         #expect(selected == [1])
         #expect(input.next() == nil)
@@ -66,9 +69,9 @@ struct `Prefix.Iterator Tests` {
     func `noncopyable elements are borrowed for predicates and moved exactly once`() throws {
         let counts = Counts()
         do {
-            var input = Prefix.Iterator(Tokens(counts: counts))
+            var input = Iterator::Iterator.Buffered(Tokens(counts: counts))
             var values: [Int] = []
-            try Prefix.While<Token> { $0.value < 2 }.forEach(in: &input) {
+            try Repetition((Cardinal.zero...), operation: Predicate<Token>{ $0.value < 2 }).forEach(in: &input) {
                 values.append($0.value)
             }
             #expect(values == [0, 1])
@@ -86,9 +89,9 @@ struct `Prefix.Iterator Tests` {
     @Test
     func `a scoped source can retain owned lookahead`() throws {
         let values = [1, 2, 3]
-        var input = Prefix.Iterator(Borrowed(values.span))
+        var input = Iterator::Iterator.Buffered(Borrowed(values.span))
         var selected: [Int] = []
-        try Prefix.While<Int> { $0 < 3 }.forEach(in: &input) { selected.append($0) }
+        try Repetition((Cardinal.zero...), operation: Predicate<Int>{ $0 < 3 }).forEach(in: &input) { selected.append($0) }
         #expect(selected == [1, 2])
         #expect(input.next() == 3)
     }
@@ -100,7 +103,7 @@ struct `Prefix.Iterator Tests` {
         var selected: [Int] = []
         let positive = Predicate<Loan> { $0.values[0] > 0 }
         let selectedPredicate = positive.and(.always)
-        try Prefix(maximum: 2).forEach(in: &input) {
+        try (Cardinal.zero...Cardinal(UInt(2))).forEach(in: &input) {
             if selectedPredicate($0) { selected.append($0.values[0]) }
         }
         #expect(selected == [1, 2])
@@ -108,9 +111,9 @@ struct `Prefix.Iterator Tests` {
 
     @Test
     func `upstream failures remain distinct and replay pending candidates`() throws {
-        var input = Prefix.Iterator(Failing())
-        #expect(throws: Either<Prefix.UpTo<[Int]>.Error, Fault>.right(.unavailable)) {
-            try Prefix.UpTo([1, 2]).forEach(in: &input) { _ in }
+        var input = Iterator::Iterator.Buffered(Failing())
+        #expect(throws: Either<Search<[Int]>.Error, Fault>.right(.unavailable)) {
+            try Search([1, 2]).selecting(.start).forEach(in: &input) { _ in }
         }
         #expect(try input.next() == 1)
     }
@@ -174,13 +177,13 @@ private struct Failing: Iterating {
     }
 }
 
-extension `Prefix.Iterator Tests` {
+extension `Iterator::Iterator.Buffered Tests` {
     @Test
     func `a Swift Sequence is traversed only once`() throws {
         let source = SinglePass()
-        var input = source.prefixIterator()
+        var input = source.bufferedIterator()
         var values: [Int] = []
-        try Prefix(maximum: 2).forEach(in: &input) { values.append($0) }
+        try (Cardinal.zero...Cardinal(UInt(2))).forEach(in: &input) { values.append($0) }
         #expect(values == [0, 1])
         #expect(source.iterations == 1)
         #expect(input.next() == 2)
@@ -191,10 +194,10 @@ extension `Prefix.Iterator Tests` {
         let counts = Counts()
         let source = Chunks(counts: counts)
         var values: [Int] = []
-        try Prefix(maximum: 2).forEach(from: source) { values.append($0) }
+        try (Cardinal.zero...Cardinal(UInt(2))).forEach(from: source) { values.append($0) }
         #expect(values == [0, 1])
-        var input = source.prefixIterator()
-        try Prefix.While<Int> { $0 < 3 }.forEach(in: &input) { values.append($0) }
+        var input = source.bufferedIterator()
+        try Repetition((Cardinal.zero...), operation: Predicate<Int>{ $0 < 3 }).forEach(in: &input) { values.append($0) }
         #expect(values == [0, 1, 2])
         #expect(input.next() == 3)
     }
@@ -215,7 +218,7 @@ private struct Chunks: Iterable, ~Copyable {
     }
 }
 
-extension `Prefix.Iterator Tests` {
+extension `Iterator::Iterator.Buffered Tests` {
     @Test
     func `an owned Swift iterator can escape its construction scope`() {
         var input = ownedIterator()
@@ -226,20 +229,20 @@ extension `Prefix.Iterator Tests` {
     func `single pass delimiter construction materializes once`() throws {
         var values = [1, 2].makeIterator()
         let delimiter = AnyIterator { values.next() }
-        let selection = Prefix.UpTo(sequence: delimiter)
-        var first = [0, 1, 2, 3].prefixIterator()
+        let selection = Search(sequence: delimiter).selecting(.start)
+        var first = [0, 1, 2, 3].bufferedIterator()
         var firstOutput: [Int] = []
         try selection.forEach(in: &first) { firstOutput.append($0) }
         #expect(firstOutput == [0])
-        var second = [9, 1, 2, 4].prefixIterator()
+        var second = [9, 1, 2, 4].bufferedIterator()
         var secondOutput: [Int] = []
         try selection.forEach(in: &second) { secondOutput.append($0) }
         #expect(secondOutput == [9])
     }
 }
 
-private func ownedIterator() -> Prefix.Iterator<Prefix.Iteration<IndexingIterator<[Int]>>, Never> {
-    [1, 2].prefixIterator()
+private func ownedIterator() -> Iterator::Iterator.Buffered<Iterator::Iterator.Standard<IndexingIterator<[Int]>>, Never> {
+    [1, 2].bufferedIterator()
 }
 
 #endif
