@@ -2,7 +2,7 @@
 public import Prefix
 public import Either
 
-extension Prefix.Through {
+extension Prefix.Through where Delimiter: Swift.Collection, Delimiter.Element: Equatable {
 
 
     public func forEach<I: Iterating & ~Copyable & ~Escapable>(

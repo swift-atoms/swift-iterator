@@ -2,7 +2,7 @@
 public import Prefix
 public import Either
 
-extension Prefix.UpTo {
+extension Prefix.UpTo where Delimiter: Swift.Collection, Delimiter.Element: Equatable {
 
 
     public func forEach<I: Iterating & ~Copyable & ~Escapable>(

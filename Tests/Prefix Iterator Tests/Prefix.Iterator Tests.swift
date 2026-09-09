@@ -227,8 +227,14 @@ extension `Prefix.Iterator Tests` {
         var values = [1, 2].makeIterator()
         let delimiter = AnyIterator { values.next() }
         let selection = Prefix.UpTo(sequence: delimiter)
-        #expect(try selection([0, 1, 2, 3]) == [0])
-        #expect(try selection([9, 1, 2, 4]) == [9])
+        var first = [0, 1, 2, 3].prefixIterator()
+        var firstOutput: [Int] = []
+        try selection.forEach(in: &first) { firstOutput.append($0) }
+        #expect(firstOutput == [0])
+        var second = [9, 1, 2, 4].prefixIterator()
+        var secondOutput: [Int] = []
+        try selection.forEach(in: &second) { secondOutput.append($0) }
+        #expect(secondOutput == [9])
     }
 }
 
