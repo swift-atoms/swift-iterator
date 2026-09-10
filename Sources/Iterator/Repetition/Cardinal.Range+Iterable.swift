@@ -4,7 +4,7 @@ public import Cardinal
 public import Either
 
 extension Cardinal.Range {
-    /// Borrows elements directly from their chunks; no element is copied or retained.
+
     public func forEach<S: Iterable & ~Copyable & ~Escapable>(
         from source: borrowing S,
         _ yield: (borrowing S.Iterator.Element) -> Void

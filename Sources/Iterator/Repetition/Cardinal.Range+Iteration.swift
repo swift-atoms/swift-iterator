@@ -5,7 +5,7 @@ internal import Predicate
 public import Either
 
 extension Cardinal.Range {
-    /// Delivers selected elements once. Partial delivery is retained on failure.
+
     public func forEach<I: Iterating & ~Copyable & ~Escapable>(
         in input: inout I,
         _ yield: (consuming I.Element) -> Void

@@ -1,6 +1,5 @@
 extension Iterator {
-    /// Owns a forward iterator and the unread elements needed by prefix selection.
-    /// Continue through this wrapper to retain lookahead; do not resume its base directly.
+
     public struct Buffered<Base: Iterating & ~Copyable & ~Escapable, SourceFailure: Swift.Error>: Iterating, ~Copyable, ~Escapable
     where Base.Element: ~Copyable & Escapable, Base.Failure == SourceFailure {
         public typealias Element = Base.Element
@@ -39,7 +38,5 @@ extension Iterator {
     }
 }
 
-// Binding the failure explicitly avoids a Swift 6.4 conditional-Escapable
-// diagnostic on the associated Base.Failure projection.
 extension Iterator::Iterator.Buffered: Escapable
 where Base: ~Copyable & Escapable, Base.Element: ~Copyable & Escapable {}

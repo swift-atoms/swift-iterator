@@ -1,5 +1,3 @@
-# .github/metadata.yaml
-# Bootstrap stub — populate further during release-readiness.
 description: "Iterator primitives for Swift — the codec-triple agent, witness, and attachable for single-pass iteration."
 topics:
   - primitives
