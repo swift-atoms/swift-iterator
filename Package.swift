@@ -18,11 +18,15 @@ let package = Package(
         .library(name: "Iterator Test Support", targets: ["Iterator Test Support"]),
     ],
     traits: [
+        .trait(name: "Empty", description: "Empty iterator conformance"),
+        .trait(name: "Single", description: "Borrowed iteration of single values"),
         .trait(name: "Search", description: "Pattern search integration"),
         .trait(name: "Repetition", description: "Bounded execution integration"),
-        .default(enabledTraits: ["Search", "Repetition"]),
+        .default(enabledTraits: ["Search", "Repetition", "Empty", "Single"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/swift-atoms/swift-empty.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-single.git", branch: "main"),
         .package(url: "https://github.com/swift-atoms/swift-repetition.git", branch: "main"),
         .package(url: "https://github.com/swift-atoms/swift-predicate.git", branch: "main"),
         .package(url: "https://github.com/swift-atoms/swift-search.git", branch: "main"),
@@ -51,6 +55,8 @@ let package = Package(
         .target(
             name: "Iterator",
             dependencies: [
+                .product(name: "Empty", package: "swift-empty", condition: .when(traits: ["Empty"])),
+                .product(name: "Single", package: "swift-single", condition: .when(traits: ["Single"])),
                 .product(name: "Repetition", package: "swift-repetition", condition: .when(traits: ["Repetition"])),
                 .product(name: "Search", package: "swift-search", condition: .when(traits: ["Search"])),
                 .product(name: "Predicate", package: "swift-predicate", condition: .when(traits: ["Repetition"])),

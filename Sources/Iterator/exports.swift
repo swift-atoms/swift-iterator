@@ -2,6 +2,14 @@
 @_exported public import Carrier
 @_exported public import Either
 
+#if Empty
+@_exported public import Empty
+#endif
+
+#if Single
+@_exported public import Single
+#endif
+
 #if Search
 @_exported public import Search
 #endif
