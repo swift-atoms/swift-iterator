@@ -22,7 +22,6 @@ let package = Package(
         .trait(name: "Single", description: "Borrowed iteration of single values"),
         .trait(name: "Search", description: "Pattern search integration"),
         .trait(name: "Repetition", description: "Bounded execution integration"),
-        .default(enabledTraits: ["Search", "Repetition", "Empty", "Single"]),
     ],
     dependencies: [
         .package(url: "https://github.com/swift-atoms/swift-empty.git", branch: "main"),
