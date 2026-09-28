@@ -27,7 +27,7 @@ let package = Package(
         .package(url: "https://github.com/swift-atoms/swift-empty.git", branch: "main"),
         .package(url: "https://github.com/swift-atoms/swift-single.git", branch: "main"),
         .package(url: "https://github.com/swift-atoms/swift-repetition.git", branch: "main"),
-        .package(url: "https://github.com/swift-atoms/swift-predicate.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-predicate.git", branch: "main", traits: ["Always"]),
         .package(url: "https://github.com/swift-atoms/swift-search.git", branch: "main"),
         .package(
             url: "https://github.com/swift-atoms/swift-carrier.git",
