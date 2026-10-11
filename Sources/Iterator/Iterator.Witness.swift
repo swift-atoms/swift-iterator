@@ -1,6 +1,6 @@
 extension Iterator {
 
-    public struct Witness<Element, Failure: Swift.Error>: Iterator.`Protocol`, ~Copyable {
+    public struct Witness<Element, Failure: Swift::Error>: Iterator.`Protocol`, ~Copyable {
         @usableFromInline
         internal var _next: () throws(Failure) -> Element?
 

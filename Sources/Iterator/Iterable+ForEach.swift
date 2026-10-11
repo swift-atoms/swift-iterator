@@ -4,7 +4,7 @@ public import Either
 extension Iterable where Self: ~Copyable & ~Escapable, Iterator.Failure == Never {
 
     @inlinable
-    public borrowing func forEach<E: Swift.Error>(
+    public borrowing func forEach<E: Swift::Error>(
         _ body: (borrowing Iterator.Element) throws(E) -> Void
     ) throws(E) {
         var iterator = makeIterator()
@@ -21,12 +21,12 @@ extension Iterable where Self: ~Copyable & ~Escapable, Iterator.Failure == Never
 extension Iterable where Self: ~Copyable & ~Escapable {
 
     @inlinable
-    public borrowing func forEach<E: Swift.Error>(
+    public borrowing func forEach<E: Swift::Error>(
         _ body: (borrowing Iterator.Element) throws(E) -> Void
     ) throws(Either<E, Iterator.Failure>) {
         var iterator = makeIterator()
         while true {
-            let span: Swift.Span<Iterator.Element>
+            let span: Swift::Span<Iterator.Element>
             do throws(Iterator.Failure) {
                 span = try iterator.next(maximumCount: Cardinal(UInt.max))
             } catch {

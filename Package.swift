@@ -88,7 +88,6 @@ let package = Package(
                 .product(name: "Carrier", package: "swift-carrier"),
                 .product(name: "Cardinal", package: "swift-cardinal"),
                 .product(name: "Either", package: "swift-either"),
-                .target(name: "Iterator Foundation Integration"),
             ],
             path: "Tests/Iterator Tests"
         ),
@@ -96,7 +95,7 @@ let package = Package(
     swiftLanguageModes: [.v6]
 )
 
-for target in package.targets where ![.system, .binary, .plugin].contains(target.type) {
+for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
     target.swiftSettings = (target.swiftSettings ?? []) + [
         .strictMemorySafety(),
         .enableUpcomingFeature("ExistentialAny"),

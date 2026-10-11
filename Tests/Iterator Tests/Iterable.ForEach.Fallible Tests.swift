@@ -4,15 +4,15 @@ import Either
 import Iterator
 import Iterator_Test_Support
 
-private enum SourceError: Swift.Error { case boom }
+private enum SourceError: Swift::Error { case boom }
 
 private struct FailingChunk: ~Copyable, ~Escapable {
-    @usableFromInline let span: Swift.Span<Int>
+    @usableFromInline let span: Swift::Span<Int>
     @usableFromInline let failAt: Int
     @usableFromInline var position: Int
 
     @_lifetime(copy span)
-    init(_ span: Swift.Span<Int>, failAt: Int) {
+    init(_ span: Swift::Span<Int>, failAt: Int) {
         self.span = span
         self.failAt = failAt
         self.position = 0
@@ -26,7 +26,7 @@ extension FailingChunk: __IteratorChunkProtocol {
     @_lifetime(&self)
     mutating func next(
         maximumCount: some Carrier.`Protocol`<Cardinal>
-    ) throws(SourceError) -> Swift.Span<Int> {
+    ) throws(SourceError) -> Swift::Span<Int> {
         if position == failAt { throw .boom }
         guard position < span.count else { return span.extracting(first: 0) }
         let result = span.extracting(droppingFirst: position).extracting(first: 1)
@@ -71,7 +71,7 @@ extension `Fallible traversal distinguishes iterator failures from body failures
 
     @Test
     func `a body error surfaces as Either.left`() {
-        enum Stop: Swift.Error { case now }
+        enum Stop: Swift::Error { case now }
         let source = FailingSource(values: [10, 20, 30], failAt: 99)
         var seen: [Int] = []
         var isLeft = false
@@ -102,7 +102,7 @@ extension `Fallible traversal distinguishes iterator failures from body failures
 
     @Test
     func `fallible reduce surfaces a closure error as Either.left`() {
-        enum Stop: Swift.Error { case now }
+        enum Stop: Swift::Error { case now }
         let source = FailingSource(values: [10, 20, 30], failAt: 99)
         var isLeft = false
         do throws(Either<Stop, SourceError>) {

@@ -4,7 +4,7 @@ public import Either
 extension Iterable where Self: ~Copyable & ~Escapable, Iterator.Failure == Never {
 
     @inlinable
-    public borrowing func contains<E: Swift.Error>(
+    public borrowing func contains<E: Swift::Error>(
         where predicate: (borrowing Iterator.Element) throws(E) -> Bool
     ) throws(E) -> Bool {
         var iterator = makeIterator()
@@ -22,12 +22,12 @@ extension Iterable where Self: ~Copyable & ~Escapable, Iterator.Failure == Never
 extension Iterable where Self: ~Copyable & ~Escapable {
 
     @inlinable
-    public borrowing func contains<E: Swift.Error>(
+    public borrowing func contains<E: Swift::Error>(
         where predicate: (borrowing Iterator.Element) throws(E) -> Bool
     ) throws(Either<E, Iterator.Failure>) -> Bool {
         var iterator = makeIterator()
         while true {
-            let span: Swift.Span<Iterator.Element>
+            let span: Swift::Span<Iterator.Element>
             do throws(Iterator.Failure) {
                 span = try iterator.next(maximumCount: Cardinal(UInt.max))
             } catch { throw Either.right(error) }

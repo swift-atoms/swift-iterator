@@ -19,6 +19,9 @@ private struct OwnedDemandSource: Iterator.`Protocol`, ~Copyable {
     let values: [Int]
     let log: DemandReadLog
     var position = 0
+}
+
+extension OwnedDemandSource {
 
     mutating func next() -> Int? {
         log.calls += 1
@@ -29,15 +32,18 @@ private struct OwnedDemandSource: Iterator.`Protocol`, ~Copyable {
 }
 
 private struct BorrowedDemandSource: Iterator.`Protocol`, ~Copyable, ~Escapable {
-    let values: Swift.Span<Int>
+    let values: Swift::Span<Int>
     let log: DemandReadLog
     var position = 0
 
     @_lifetime(copy values)
-    init(_ values: Swift.Span<Int>, log: DemandReadLog) {
+    init(_ values: Swift::Span<Int>, log: DemandReadLog) {
         self.values = values
         self.log = log
     }
+}
+
+extension BorrowedDemandSource {
 
     mutating func next() -> Int? {
         log.calls += 1
@@ -47,12 +53,15 @@ private struct BorrowedDemandSource: Iterator.`Protocol`, ~Copyable, ~Escapable 
     }
 }
 
-private enum DemandReadFailure: Swift.Error, Equatable {
+private enum DemandReadFailure: Swift::Error, Equatable {
     case unavailable
 }
 
 private struct FailingDemandSource: Iterator.`Protocol`, ~Copyable {
     let log: DemandReadLog
+}
+
+extension FailingDemandSource {
 
     mutating func next() throws(DemandReadFailure) -> Int? {
         log.calls += 1

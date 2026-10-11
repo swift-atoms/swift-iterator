@@ -5,12 +5,12 @@ public protocol __IteratorChunkProtocol<Element, Failure>: ~Copyable, ~Escapable
 
     associatedtype Element: ~Copyable
 
-    associatedtype Failure: Swift.Error = Never
+    associatedtype Failure: Swift::Error = Never
 
     @_lifetime(&self)
     mutating func next(
         maximumCount: some Carrier.`Protocol`<Cardinal>
-    ) throws(Failure) -> Swift.Span<Element>
+    ) throws(Failure) -> Swift::Span<Element>
 
     mutating func skip(
         by maximumOffset: some Carrier.`Protocol`<Cardinal>

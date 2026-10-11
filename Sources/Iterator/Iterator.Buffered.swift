@@ -1,6 +1,6 @@
 extension Iterator {
 
-    public struct Buffered<Base: Iterating & ~Copyable & ~Escapable, SourceFailure: Swift.Error>: Iterating, ~Copyable, ~Escapable
+    public struct Buffered<Base: Iterating & ~Copyable & ~Escapable, SourceFailure: Swift::Error>: Iterating, ~Copyable, ~Escapable
     where Base.Element: ~Copyable & Escapable, Base.Failure == SourceFailure {
         public typealias Element = Base.Element
         public typealias Failure = Base.Failure

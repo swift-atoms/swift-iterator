@@ -122,6 +122,9 @@ struct `Iterator::Iterator.Buffered Tests` {
 private final class Counts { var read = 0; var destroyed = 0 }
 private struct Numbers: Iterating, ~Copyable {
     let counts: Counts
+}
+
+extension Numbers {
     mutating func next() -> Int? {
         defer { counts.read += 1 }
         return counts.read
@@ -134,6 +137,9 @@ private struct Token: ~Copyable {
 }
 private struct Tokens: Iterating, ~Copyable {
     let counts: Counts
+}
+
+extension Tokens {
     mutating func next() -> Token? {
         defer { counts.read += 1 }
         return Token(value: counts.read, counts: counts)
@@ -144,6 +150,9 @@ private struct Borrowed: Iterating, ~Copyable, ~Escapable {
     var offset = 0
     @_lifetime(copy values)
     init(_ values: Span<Int>) { self.values = values }
+}
+
+extension Borrowed {
     mutating func next() -> Int? {
         guard offset < values.count else { return nil }
         defer { offset += 1 }
@@ -160,6 +169,9 @@ private struct Loans: Iterating, ~Copyable, ~Escapable {
     var offset = 0
     @_lifetime(copy values)
     init(_ values: Span<Int>) { self.values = values }
+}
+
+extension Loans {
     @_lifetime(&self)
     mutating func next() -> Loan? {
         guard offset < values.count else { return nil }
@@ -170,6 +182,9 @@ private struct Loans: Iterating, ~Copyable, ~Escapable {
 private enum Fault: Error, Equatable { case unavailable }
 private struct Failing: Iterating {
     var count = 0
+}
+
+extension Failing {
     mutating func next() throws(Fault) -> Int? {
         guard count == 0 else { throw .unavailable }
         count += 1
@@ -203,15 +218,21 @@ extension `Iterator::Iterator.Buffered Tests` {
     }
 }
 
-private final class SinglePass: Swift.Sequence, Swift.IteratorProtocol {
+private final class SinglePass: Swift::Sequence, Swift::IteratorProtocol {
     var iterations = 0
     var count = 0
+}
+
+extension SinglePass {
     func makeIterator() -> SinglePass { iterations += 1; return self }
     func next() -> Int? { defer { count += 1 }; return count }
 }
 
 private struct Chunks: Iterable, ~Copyable {
     let counts: Counts
+}
+
+extension Chunks {
     @_lifetime(borrow self)
     borrowing func makeIterator() -> Iterator::Iterator.Materializing<Numbers> {
         Iterator::Iterator.Materializing(Numbers(counts: counts))

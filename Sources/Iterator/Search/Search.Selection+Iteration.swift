@@ -2,7 +2,7 @@
 public import Search
 public import Either
 
-extension Search.Selection where Pattern: Swift.Collection, Pattern.Element: Equatable {
+extension Search.Selection where Pattern: Swift::Collection, Pattern.Element: Equatable {
 
 
     public func forEach<I: Iterating & ~Copyable & ~Escapable>(

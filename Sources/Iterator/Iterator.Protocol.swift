@@ -4,7 +4,7 @@ extension Iterator {
 
         associatedtype Element: ~Copyable & ~Escapable
 
-        associatedtype Failure: Swift.Error = Never
+        associatedtype Failure: Swift::Error = Never
 
         @_lifetime(&self)
         mutating func next() throws(Failure) -> Element?

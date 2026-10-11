@@ -13,10 +13,10 @@ extension IntSource {
 }
 
 private struct IntCursor: Iterator::Iterable, ~Escapable {
-    let values: Swift.Span<Int>
+    let values: Swift::Span<Int>
 
     @_lifetime(copy values)
-    init(_ values: Swift.Span<Int>) {
+    init(_ values: Swift::Span<Int>) {
         self.values = values
     }
 }
@@ -57,7 +57,7 @@ extension `Iterable traversal preserves order capabilities and typed failures`.`
 
     @Test
     func `forEach propagates the body's typed error, stopping iteration`() {
-        enum Stop: Swift.Error { case now }
+        enum Stop: Swift::Error { case now }
         let source = IntSource(values: [1, 2, 3, 4])
         var seen: [Int] = []
         var threw = false
