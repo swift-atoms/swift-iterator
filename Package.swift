@@ -43,14 +43,17 @@ let package = Package(
         ),
     ],
     targets: [
-        .testTarget(name: "Iterator Selection Tests", dependencies: [
-            .product(name: "Repetition", package: "swift-repetition"),
-            .target(name: "Iterator"),
-            .product(name: "Search", package: "swift-search"),
+        .testTarget(
+            name: "Iterator Selection Tests",
+            dependencies: [
+                .product(name: "Repetition", package: "swift-repetition"),
+                .target(name: "Iterator"),
+                .product(name: "Search", package: "swift-search"),
                 .product(name: "Predicate", package: "swift-predicate"),
-            .product(name: "Either", package: "swift-either"),
-            .product(name: "Cardinal", package: "swift-cardinal"),
-        ]),
+                .product(name: "Either", package: "swift-either"),
+                .product(name: "Cardinal", package: "swift-cardinal"),
+            ]
+        ),
         .target(
             name: "Iterator",
             dependencies: [
@@ -65,18 +68,18 @@ let package = Package(
             ],
             path: "Sources/Iterator"
         ),
-        
+
         .target(
             name: "Iterator Foundation Integration",
             dependencies: [
-                .target(name: "Iterator"),
+                .target(name: "Iterator")
             ],
             path: "Sources/Iterator Foundation Integration"
         ),
         .target(
             name: "Iterator Test Support",
             dependencies: [
-                .target(name: "Iterator"),
+                .target(name: "Iterator")
             ],
             path: "Tests/Support"
         ),
@@ -96,14 +99,15 @@ let package = Package(
 )
 
 for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
-    target.swiftSettings = (target.swiftSettings ?? []) + [
-        .strictMemorySafety(),
-        .enableUpcomingFeature("ExistentialAny"),
-        .enableUpcomingFeature("InternalImportsByDefault"),
-        .enableUpcomingFeature("MemberImportVisibility"),
-        .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
-        .enableUpcomingFeature("InferIsolatedConformances"),
-        .enableExperimentalFeature("Lifetimes"),
-        .treatAllWarnings(as: .error),
-    ]
+    target.swiftSettings =
+        (target.swiftSettings ?? []) + [
+            .strictMemorySafety(),
+            .enableUpcomingFeature("ExistentialAny"),
+            .enableUpcomingFeature("InternalImportsByDefault"),
+            .enableUpcomingFeature("MemberImportVisibility"),
+            .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+            .enableUpcomingFeature("InferIsolatedConformances"),
+            .enableExperimentalFeature("Lifetimes"),
+            .treatAllWarnings(as: .error),
+        ]
 }

@@ -1,2 +1,2 @@
-@_exported public import Iterator
 import Foundation
+@_exported public import Iterator

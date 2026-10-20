@@ -1,14 +1,14 @@
 #if Empty
-public import Empty
+    public import Empty
 
-extension Empty: Iterator.`Protocol` where Element: ~Copyable & ~Escapable {
+    extension Empty: Iterator.`Protocol` where Element: ~Copyable & ~Escapable {
 
-    public typealias Failure = Never
+        public typealias Failure = Never
 
-    @inlinable
-    @_lifetime(&self)
-    public mutating func next() -> Element? {
-        nil
+        @inlinable
+        @_lifetime(&self)
+        public mutating func next() -> Element? {
+            nil
+        }
     }
-}
 #endif
