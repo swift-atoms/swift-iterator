@@ -57,11 +57,11 @@ let package = Package(
         .target(
             name: "Iterator",
             dependencies: [
-                .product(name: "Empty", package: "swift-empty", condition: .when(traits: ["Empty"])),
-                .product(name: "Single", package: "swift-single", condition: .when(traits: ["Single"])),
-                .product(name: "Repetition", package: "swift-repetition", condition: .when(traits: ["Repetition"])),
-                .product(name: "Search", package: "swift-search", condition: .when(traits: ["Search"])),
-                .product(name: "Predicate", package: "swift-predicate", condition: .when(traits: ["Repetition"])),
+                .product(name: "Empty", package: "swift-empty"),
+                .product(name: "Single", package: "swift-single"),
+                .product(name: "Repetition", package: "swift-repetition"),
+                .product(name: "Search", package: "swift-search"),
+                .product(name: "Predicate", package: "swift-predicate"),
                 .product(name: "Either", package: "swift-either"),
                 .product(name: "Cardinal", package: "swift-cardinal"),
                 .product(name: "Carrier", package: "swift-carrier"),
