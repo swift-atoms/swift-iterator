@@ -5,11 +5,8 @@ extension Iterator {
         private var source: Source
         @_lifetime(copy source)
         public init(_ source: consuming Source) { self.source = source }
-    }
-}
-
-extension Iterator.Flattened where Source: ~Copyable & ~Escapable {
-    public mutating func next() throws(Source.Failure) -> Source.Element? {
-        try source.next()
+        public mutating func next() throws(Source.Failure) -> Source.Element? {
+            try source.next()
+        }
     }
 }
