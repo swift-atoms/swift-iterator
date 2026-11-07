@@ -23,13 +23,22 @@ extension DripBulk {
     }
 }
 
-@Suite struct `Chunk iterators lend bounded spans and preserve skip counts` {
+enum `Iterator.Chunk Tests` {}
+
+extension `Iterator.Chunk Tests` {
+    @Suite struct `Chunk iterators lend bounded spans and preserve skip counts` {
+    }
+}
+
+extension `Iterator.Chunk Tests`.`Chunk iterators lend bounded spans and preserve skip counts` {
     @Suite struct `No chunk iterator boundary cases are defined` {}
+
     @Suite struct `No chunk iterator integration cases are defined` {}
+
     @Suite struct `Chunk iteration preserves elements exhaustion and typed boundaries` {}
 }
 
-extension `Chunk iterators lend bounded spans and preserve skip counts`.`Chunk iteration preserves elements exhaustion and typed boundaries` {
+extension `Iterator.Chunk Tests`.`Chunk iterators lend bounded spans and preserve skip counts`.`Chunk iteration preserves elements exhaustion and typed boundaries` {
     @Test
     func `next yields a borrowed span of the next element`() {
         var iter = DripBulk([10, 20, 30])

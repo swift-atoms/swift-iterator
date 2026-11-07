@@ -14,15 +14,26 @@ extension CountingIterator {
     }
 }
 
-@Suite struct `Iteration supports closure sources type erasure and repetition` {
+enum `Iteration Tests` {}
+
+extension `Iteration Tests` {
+    @Suite struct `Iteration supports closure sources type erasure and repetition` {
+    }
+}
+
+extension `Iteration Tests`.`Iteration supports closure sources type erasure and repetition` {
     @Suite struct `Closure backed iterators yield values and remain exhausted` {}
+
     @Suite struct `Type erased iteration wraps a copyable source` {}
+
     @Suite struct `Repeating iteration continues yielding the same element` {}
+
     @Suite struct `No iteration boundary cases are defined` {}
+
     @Suite struct `No iteration integration cases are defined` {}
 }
 
-extension `Iteration supports closure sources type erasure and repetition`.`Closure backed iterators yield values and remain exhausted` {
+extension `Iteration Tests`.`Iteration supports closure sources type erasure and repetition`.`Closure backed iterators yield values and remain exhausted` {
     @Test
     func `closure-backed iterator yields then exhausts`() {
         var values = [1, 2, 3]
@@ -45,7 +56,7 @@ extension `Iteration supports closure sources type erasure and repetition`.`Clos
     }
 }
 
-extension `Iteration supports closure sources type erasure and repetition`.`Type erased iteration wraps a copyable source` {
+extension `Iteration Tests`.`Iteration supports closure sources type erasure and repetition`.`Type erased iteration wraps a copyable source` {
     @Test
     func `Type erased iteration wraps a copyable source iterator`() {
         let source = CountingIterator(upTo: 2)
@@ -57,7 +68,7 @@ extension `Iteration supports closure sources type erasure and repetition`.`Type
     }
 }
 
-extension `Iteration supports closure sources type erasure and repetition`.`Repeating iteration continues yielding the same element` {
+extension `Iteration Tests`.`Iteration supports closure sources type erasure and repetition`.`Repeating iteration continues yielding the same element` {
     @Test
     func `repeating factory yields the element forever`() {
 

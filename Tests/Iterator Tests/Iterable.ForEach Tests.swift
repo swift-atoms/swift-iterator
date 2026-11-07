@@ -28,14 +28,24 @@ extension IntCursor {
     }
 }
 
-@Suite struct `Iterable traversal preserves order capabilities and typed failures` {
+enum `Iterable.ForEach Tests` {}
+
+extension `Iterable.ForEach Tests` {
+    @Suite struct `Iterable traversal preserves order capabilities and typed failures` {
+    }
+}
+
+extension `Iterable.ForEach Tests`.`Iterable traversal preserves order capabilities and typed failures` {
     @Suite struct `No iterable traversal boundary cases are defined` {}
+
     @Suite struct `No iterable traversal integration cases are defined` {}
+
     @Suite struct `Element traversal preserves repeatability and propagates body failures` {}
+
     @Suite struct `Element traversal accepts nonescapable iterables` {}
 }
 
-extension `Iterable traversal preserves order capabilities and typed failures`.`Element traversal preserves repeatability and propagates body failures` {
+extension `Iterable.ForEach Tests`.`Iterable traversal preserves order capabilities and typed failures`.`Element traversal preserves repeatability and propagates body failures` {
     @Test
     func `forEach visits every element in order`() {
         let source = IntSource(values: [1, 2, 3])
@@ -74,7 +84,7 @@ extension `Iterable traversal preserves order capabilities and typed failures`.`
     }
 }
 
-extension `Iterable traversal preserves order capabilities and typed failures`.`Element traversal accepts nonescapable iterables` {
+extension `Iterable.ForEach Tests`.`Iterable traversal preserves order capabilities and typed failures`.`Element traversal accepts nonescapable iterables` {
 
     @Test
     func `forEach reaches a ~Escapable iterable`() {
