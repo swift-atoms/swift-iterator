@@ -182,7 +182,7 @@
             return Loan(values.extracting(offset..<(offset + 1)))
         }
     }
-    private enum Fault: Error, Equatable { case unavailable }
+    private enum Fault: Swift.Error, Equatable { case unavailable }
     private struct Failing: Iterating {
         var count = 0
     }
@@ -221,7 +221,7 @@
         }
     }
 
-    private final class SinglePass: Swift::Sequence, Swift::IteratorProtocol {
+    private final class SinglePass: Swift.Sequence, Swift::IteratorProtocol {
         var iterations = 0
         var count = 0
     }
