@@ -1,11 +1,23 @@
 extension Iterator {
-
     public struct Buffered<Base: Iterating & ~Copyable & ~Escapable, SourceFailure: Swift::Error>: Iterating, ~Copyable, ~Escapable
     where Base.Element: ~Copyable & Escapable, Base.Failure == SourceFailure {
-        public typealias Element = Base.Element
-        public typealias Failure = Base.Failure
         private var base: Base
         private var pending: Node?
+
+        @_lifetime(copy base)
+        public init(_ base: consuming Base) {
+            self.base = base
+            self.pending = nil
+        }
+    }
+}
+
+extension Iterator::Iterator.Buffered: Escapable
+where Base: ~Copyable & Escapable, Base.Element: ~Copyable & Escapable {}
+
+extension Iterator.Buffered where Base: ~Copyable & ~Escapable {
+        public typealias Element = Base.Element
+        public typealias Failure = Base.Failure
 
         private final class Node {
             var element: Element?
@@ -14,12 +26,6 @@ extension Iterator {
                 self.element = .some(consume element)
                 self.next = next
             }
-        }
-
-        @_lifetime(copy base)
-        public init(_ base: consuming Base) {
-            self.base = base
-            self.pending = nil
         }
 
         public mutating func next() throws(Failure) -> Element? {
@@ -34,9 +40,4 @@ extension Iterator {
 
         public mutating func unread(_ element: consuming Element) {
             pending = Node(element, next: pending)
-        }
-    }
-}
-
-extension Iterator::Iterator.Buffered: Escapable
-where Base: ~Copyable & Escapable, Base.Element: ~Copyable & Escapable {}
+        }}
