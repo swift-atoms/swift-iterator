@@ -8,6 +8,7 @@ extension Iterator {
 }
 
 extension Iterator.Flattened where Source: ~Copyable & ~Escapable {
-        public mutating func next() throws(Source.Failure) -> Source.Element? {
-            try source.next()
-        }}
+    public mutating func next() throws(Source.Failure) -> Source.Element? {
+        try source.next()
+    }
+}
