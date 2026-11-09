@@ -10,7 +10,7 @@
             _ yield: (consuming I.Element) -> Void
         ) throws(Either<Repetition<Bounds, Void>.Error, I.Failure>)
         where I.Element: ~Copyable & Escapable, Operation == Predicate<I.Element> {
-            guard bounds.contains(bounds.minimum) else { throw .left(.emptyBounds) }
+            guard bounds.bounds != .empty else { throw .left(.emptyBounds) }
             var count = Cardinal.zero
             while bounds.permitsAnother(after: count) {
                 guard count.rawValue != UInt.max else { throw .left(.countOverflow) }
