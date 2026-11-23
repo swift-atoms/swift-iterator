@@ -5,14 +5,14 @@
     extension Search.Selection where Pattern: Swift::Collection, Pattern.Element: Equatable {
 
         public func forEach<I: Iterating & ~Copyable & ~Escapable>(
-            in input: inout Iterator::Iterator.Buffered<I, I.Failure>,
+            in input: inout Iterator::Iterator.Buffered<I, I.Element, I.Failure>,
             _ yield: (Pattern.Element) -> Void
         ) throws(Either<Error, I.Failure>) where I.Element == Pattern.Element {
             try scan(in: &input, yield)
         }
 
         func scan<I: Iterating & ~Copyable & ~Escapable>(
-            in input: inout Iterator::Iterator.Buffered<I, I.Failure>,
+            in input: inout Iterator::Iterator.Buffered<I, I.Element, I.Failure>,
             _ yield: (Pattern.Element) -> Void
         ) throws(Either<Error, I.Failure>) where I.Element == Pattern.Element {
             let pattern = Array(delimiter)

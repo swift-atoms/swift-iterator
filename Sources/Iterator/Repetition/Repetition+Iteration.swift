@@ -6,7 +6,7 @@
 
     extension Repetition where Bounds: Cardinal.Range {
         public func forEach<I: Iterating & ~Copyable & ~Escapable>(
-            in input: inout Iterator.Buffered<I, I.Failure>,
+            in input: inout Iterator.Buffered<I, I.Element, I.Failure>,
             _ yield: (consuming I.Element) -> Void
         ) throws(Either<Repetition<Bounds, Void>.Error, I.Failure>)
         where I.Element: ~Copyable & Escapable, Operation == Predicate<I.Element> {

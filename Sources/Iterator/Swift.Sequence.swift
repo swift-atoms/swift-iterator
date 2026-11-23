@@ -1,6 +1,6 @@
 extension Swift::Sequence {
 
-    public consuming func bufferedIterator() -> Iterator::Iterator.Buffered<Iterator::Iterator.Standard<Self.Iterator>, Never> {
+    public consuming func bufferedIterator() -> Iterator::Iterator.Buffered<Iterator::Iterator.Standard<Self.Iterator>, Self.Element, Never> {
         Iterator::Iterator.Buffered(Iterator::Iterator.Standard(makeIterator()))
     }
 }

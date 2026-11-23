@@ -271,7 +271,7 @@
         }
     }
 
-    private func ownedIterator() -> Iterator::Iterator.Buffered<Iterator::Iterator.Standard<IndexingIterator<[Int]>>, Never> {
+    private func ownedIterator() -> Iterator::Iterator.Buffered<Iterator::Iterator.Standard<IndexingIterator<[Int]>>, Int, Never> {
         [1, 2].bufferedIterator()
     }
 

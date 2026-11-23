@@ -1,9 +1,7 @@
 extension Iterator {
 
-    public struct Buffered<Base: Iterating & ~Copyable & ~Escapable, SourceFailure: Swift::Error>: Iterating, ~Copyable, ~Escapable
-    where Base.Element: ~Copyable & Escapable, Base.Failure == SourceFailure {
-        public typealias Element = Base.Element
-        public typealias Failure = Base.Failure
+    public struct Buffered<Base: Iterating & ~Copyable & ~Escapable, Element: ~Copyable, Failure: Swift::Error>: Iterating, ~Copyable, ~Escapable
+    where Base.Element == Element, Base.Failure == Failure {
         private var base: Base
         private var pending: Node?
 
@@ -39,4 +37,4 @@ extension Iterator {
 }
 
 extension Iterator::Iterator.Buffered: Escapable
-where Base: ~Copyable & Escapable, Base.Element: ~Copyable & Escapable {}
+where Base: ~Copyable & Escapable, Element: ~Copyable {}
